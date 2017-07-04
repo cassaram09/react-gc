@@ -1,6 +1,6 @@
 {
   "name": "react-gc",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple generator for React components",
   "main": "index.js",
   "scripts": {
