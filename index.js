@@ -2,6 +2,7 @@
 
 // harmony adds backwards compatiblity for yield
 var fs = require('fs-extra')
+var async = require('async-file')
 var program = require('commander'); // provide nice abstractions for parsing arguments and options
 var co = require('co');
 var prompt = require('co-prompt');
@@ -15,25 +16,41 @@ program
  .arguments('<className>')
  .option('-d, --dispatch', 'Add mapDispatchToProps')
  .option('-stp, --state', 'Add mapStateToProps')
- .action(createComponent)
-
+ .action(generateComponent)
  .parse(process.argv);
 
 
 function createComponent(className) {
+  var promise = new Promise(function(resolve, reject) {
+    fs.copy('./template.text', `./${className}.js`)
+      .then(() => {
+        resolve(className);
+      }).catch( err => { 
+        reject(Error("File not created."));
+      })
+  });
+  return promise;
+}
 
-  fs.copy('./template.text', `./${className}.js`)
-    .then(() => {
-      console.log('success!') 
-      replace({
+function replaceFunc(className) {
+  var promise = new Promise(function(resolve, reject) {
+    replace({
         regex: ":className",
         replacement: className,
         paths: [`./${className}.js`],
         recursive: false,
         silent: true,
       });
-    }).catch( err => { 
-      console.error(err) 
+      resolve("Stuff worked!");
+  });
+  return promise;
+}
+
+function generateComponent(className){
+  return createComponent(className)
+    .then(replaceFunc)
+    .then( (data) => {
+      console.log(data)
     })
 }
 
