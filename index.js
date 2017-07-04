@@ -1,11 +1,11 @@
 #!/usr/bin/env node --harmony
 
-var fs = require('fs-extra')
-var program = require('commander'); 
-var co = require('co');
-var prompt = require('co-prompt');
-var chalk = require('chalk'); 
-var replace = require('replace')
+const fs = require('fs-extra')
+const program = require('commander'); 
+const co = require('co');
+const prompt = require('co-prompt');
+const chalk = require('chalk'); 
+const replace = require('replace')
 
 program
  .arguments('<className>')
