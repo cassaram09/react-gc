@@ -14,14 +14,18 @@ var replace = require('replace') // node replace
 
 program
  .arguments('<className>')
- .option('-d, --dispatch', 'Add mapDispatchToProps')
- .option('-stp, --state', 'Add mapStateToProps')
+ .option('-p, --path <path>', 'Add path to new file (relative from current directory)')
  .action(createComponent)
  .parse(process.argv);
 
- function createFile(className) {
+function path() {
+  var path = program.path || './'
+  return path;
+}
+
+function createFile(className) {
   var promise = new Promise(function(resolve, reject) {
-    fs.copy('./template.text', `./${className}.js`)
+    fs.copy('./template.text', `${path() + className}.js` )
       .then(() => {
         resolve(className);
       }).catch( err => { 
@@ -36,7 +40,7 @@ function replaceFunc(className) {
     replace({
       regex: ":className",
       replacement: className,
-      paths: [`./${className}.js`],
+      paths: [`${path() + className}.js`],
       recursive: false,
       silent: true,
     });
@@ -50,6 +54,6 @@ function createComponent(className){
   return createFile(className)
     .then(replaceFunc)
     .then( (className ) =>{
-      console.log(chalk.bold.cyan(`Component ${className} created at ./${className}.js`))
+      console.log(chalk.bold.cyan(`Component ${className} created at ${path() + className}.js`))
     })
 }
