@@ -20,13 +20,13 @@ program
 
 function path() {
   if (program.path) {
-    return '../../' + program.path
+    return __dirname + '/' + program.path
   }
-  return '../../';
+  return __dirname + '/';
 }
 
 function createFile(className) {
-  console.log(path())
+  console.log('helo', __dirname)
   var promise = new Promise(function(resolve, reject) {
     fs.copy('./template.text', `${path() + className}.js` )
       .then(() => {
@@ -57,6 +57,6 @@ function createComponent(className){
   return createFile(className)
     .then(replaceFunc)
     .then( (className ) =>{
-      console.log(chalk.bold.cyan(`Component ${className} created at ${path() + className}.js`))
+      console.log(chalk.bold.cyan(`Component ${className} created at ${ ( program.path || './' ) + className}.js`))
     })
 }
