@@ -1,46 +1,12 @@
 {
   "name": "react-gc",
-  "version": "0.1.4",
-  "description": "Simple generator for React components",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "test"
-  },
-  "keywords": [
-    "react",
-    "generate",
-    "component"
-  ],
-  "author": "Matt Cassara",
-  "license": "MIT",
-  "bin": {
-    "react-gc": "./index.js"
-  },
-  "dependencies": {
-    "chalk": "^2.0.1",
-    "co": "^4.6.0",
-    "co-prompt": "^1.0.0",
-    "commander": "^2.11.0",
-    "fs": "0.0.1-security",
-    "fs-extra": "^3.0.1",
-    "progress": "^2.0.0",
-    "replace": "^0.3.0"
-  }
-}
-
-
-{
-  "name": "react-gc",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple generator for React components",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Matt Cassara",
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.0.1",
