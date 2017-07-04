@@ -51,7 +51,6 @@ function replaceFunc(className) {
   return promise;
 }
 
-
 function createComponent(className){
   return createFile(className)
     .then(replaceFunc)
