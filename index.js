@@ -16,11 +16,10 @@ program
  .arguments('<className>')
  .option('-d, --dispatch', 'Add mapDispatchToProps')
  .option('-stp, --state', 'Add mapStateToProps')
- .action(generateComponent)
+ .action(createComponent)
  .parse(process.argv);
 
-
-function createComponent(className) {
+ function createFile(className) {
   var promise = new Promise(function(resolve, reject) {
     fs.copy('./template.text', `./${className}.js`)
       .then(() => {
@@ -35,22 +34,22 @@ function createComponent(className) {
 function replaceFunc(className) {
   var promise = new Promise(function(resolve, reject) {
     replace({
-        regex: ":className",
-        replacement: className,
-        paths: [`./${className}.js`],
-        recursive: false,
-        silent: true,
-      });
-      resolve("Stuff worked!");
+      regex: ":className",
+      replacement: className,
+      paths: [`./${className}.js`],
+      recursive: false,
+      silent: true,
+    });
+    resolve(className);
   });
   return promise;
 }
 
-function generateComponent(className){
-  return createComponent(className)
+
+function createComponent(className){
+  return createFile(className)
     .then(replaceFunc)
-    .then( (data) => {
-      console.log(data)
+    .then( (className ) =>{
+      console.log(chalk.bold.cyan(`Component ${className} created at ./${className}.js`))
     })
 }
-
