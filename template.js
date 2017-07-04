@@ -1,3 +1,4 @@
+exports.main = `
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
@@ -20,3 +21,4 @@ class :className extends Component {
 }
 
 export default :className;
+`

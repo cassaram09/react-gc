@@ -1,11 +1,10 @@
 #!/usr/bin/env node --harmony
 
-const fs = require('fs-extra')
+const fs = require('fs')
 const program = require('commander'); 
-const co = require('co');
-const prompt = require('co-prompt');
 const chalk = require('chalk'); 
-const replace = require('replace')
+const replace = require('replace');
+const template = require('./template');
 
 program
  .arguments('<className>')
@@ -13,43 +12,46 @@ program
  .action(createComponent)
  .parse(process.argv);
 
-function path() {
-  if (program.path) {
-    return process.cwd() + '/' + program.path
+function writeFile(className){
+  var path;
+  if (program.path){
+    path = program.path + '/' + className
+  } else {
+    path = className;
   }
-  return process.cwd() + '/';
-}
 
-function createFile(className) {
-  var promise = new Promise(function(resolve, reject) {
-    fs.copy('./template.text', `${path() + className}.js` )
-      .then(() => {
-        resolve(className);
-      }).catch( err => { 
-        reject(Error("File not created."));
-      })
-  });
-  return promise;
-}
-
-function replaceFunc(className) {
-  var promise = new Promise(function(resolve, reject) {
-    replace({
-      regex: ":className",
-      replacement: className,
-      paths: [`${path() + className}.js`],
-      recursive: false,
-      silent: true,
+  fs.writeFile(`${path}.js`, template.main, (err) => {
+      if (err) throw err;
+      replace({
+        regex: ":className",
+        replacement: className,
+        paths: [`${path}.js`],
+        recursive: false,
+        silent: true,
+      });
+      console.log(chalk.bold.cyan(`Component ${className} created at ${path}.js`))
     });
-    resolve(className);
-  });
-  return promise;
+}
+
+function checkPath(path) {
+  if ( path !== undefined ){
+    return fs.existsSync(path)
+  }
+}
+
+function capitalize(className){
+  return className[0].toUpperCase() + className.substring(1, className.length)
 }
 
 function createComponent(className){
-  return createFile(className)
-    .then(replaceFunc)
-    .then( (className ) =>{
-      console.log(chalk.bold.cyan(`Component ${className} created at ${ ( program.path || './' ) + className}.js`))
+  if ( program.path && !checkPath(program.path) ) {
+    fs.mkdir(program.path, function (err) {
+      if (err) {
+        console.log('failed to create directory', err);
+      }
     })
+  }
+  writeFile(capitalize(className))
 }
+
+
