@@ -1,16 +1,11 @@
 #!/usr/bin/env node --harmony
 
-// harmony adds backwards compatiblity for yield
 var fs = require('fs-extra')
-var async = require('async-file')
-var program = require('commander'); // provide nice abstractions for parsing arguments and options
+var program = require('commander'); 
 var co = require('co');
 var prompt = require('co-prompt');
-// co and co prompt allow us to gather user feedback and use ES6 'yield' keyword
-// This lets us write async code without callbacks that feels more scripty
-var chalk = require('chalk'); // colorization
-var progress = require('progress'); // progress
-var replace = require('replace') // node replace
+var chalk = require('chalk'); 
+var replace = require('replace')
 
 program
  .arguments('<className>')
