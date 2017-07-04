@@ -20,13 +20,12 @@ program
 
 function path() {
   if (program.path) {
-    return __dirname + '/' + program.path
+    return process.cwd() + '/' + program.path
   }
-  return __dirname + '/';
+  return process.cwd() + '/';
 }
 
 function createFile(className) {
-  console.log('helo', __dirname)
   var promise = new Promise(function(resolve, reject) {
     fs.copy('./template.text', `${path() + className}.js` )
       .then(() => {
