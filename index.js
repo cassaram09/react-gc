@@ -19,11 +19,14 @@ program
  .parse(process.argv);
 
 function path() {
-  var path = program.path || './'
-  return path;
+  if (program.path) {
+    return '../../' + program.path
+  }
+  return '../../';
 }
 
 function createFile(className) {
+  console.log(path())
   var promise = new Promise(function(resolve, reject) {
     fs.copy('./template.text', `${path() + className}.js` )
       .then(() => {
