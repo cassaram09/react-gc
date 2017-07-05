@@ -7,6 +7,7 @@
   const chalk = require('chalk'); 
   const replace = require('replace');
   const template = require('./template');
+  const textInput = require('./template_textInput');
 
   program
    .arguments('<className>')
@@ -15,6 +16,23 @@
    .option('-s, --state', 'Add state')
    .action(createComponent)
    .parse(process.argv);
+
+   // build our new component
+  function createComponent(className){
+    switch (className){
+      case 'TextInput':
+        var template = textInput.template;
+        createDirectory();
+        writeFile(template, className)
+        return
+      default:
+        var template = buildTemplate()
+        var name = capitalize(className)
+        createDirectory();
+        writeFile(template, name)
+        return
+    }
+  }
 
   // Write the template to a file and replace our className variables
   function writeFile(template, className){
@@ -34,15 +52,11 @@
     });
   }
 
-  // check if the --path was passed or exists
-  function validatePath(path) {
-    return path !== undefined ? fs.existsSync(path) : false;
-  }
-
   // create a directory if passed a --path option and no directory exists
   function createDirectory(){
-    if ( !validatePath(program.path) ) {
-      fs.mkdir(program.path, function (err) {
+    var path = program.path
+    if ( path && !fs.existsSync(path) ) {
+      fs.mkdir(path, function (err) {
         if (err) throw err;
       })
     }
@@ -53,13 +67,7 @@
     return className[0].toUpperCase() + className.substring(1, className.length)
   }
 
-  // build our new component
-  function createComponent(className){
-    var template = buildTemplate()
-    var name = capitalize(className)
-    createDirectory();
-    writeFile(template, name)
-  }
+  
 
   // build the template - we'll replace variables later
   function buildTemplate(){
