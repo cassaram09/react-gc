@@ -9,6 +9,8 @@ const template = require('./template');
 program
  .arguments('<className>')
  .option('-p, --path <path>', 'Add path to new file (relative from current directory)')
+ .option('-d, --dispatch', 'Add dispatch')
+ .option('-s, --state', 'Add state')
  .action(createComponent)
  .parse(process.argv);
 
@@ -20,7 +22,9 @@ function writeFile(className){
     path = className;
   }
 
-  fs.writeFile(`${path}.js`, template.main, (err) => {
+  var template = buildTemplate();
+
+  fs.writeFile(`${path}.js`, template, (err) => {
       if (err) throw err;
       replace({
         regex: ":className",
@@ -54,4 +58,43 @@ function createComponent(className){
   writeFile(capitalize(className))
 }
 
+function buildTemplate(){
+  return buildImports() + '\n' + buildBody() + '\n' + buildExports()
+}
 
+function buildImports(){
+  var imports = [template.imports.react, template.imports.propTypes]
+  if ( program.state || program.dispatch ) {
+    imports.push(template.imports.connect)
+  }
+  if ( program.dispatch ) {
+    imports.push(template.imports.bindActionCreators)
+  }
+  return imports.join('\n')
+}
+
+function buildBody(){
+  var body = [template.main]
+  if ( program.state) {
+    body.push(template.state)
+  }
+  if ( program.dispatch) {
+    body.push(template.dispatch)
+  }
+  return body.join('\n')
+}
+
+function buildExports(){
+  var exported = []
+  if ( program.state && program.dispatch ) {
+    exported.push(template.exported.connectStateAndDispatch);
+    return exported.join('')
+  }
+  if ( program.state ) {
+    exported.push(template.exported.connectState);
+  }
+  if ( program.dispatch ) {
+    exported.push(template.exported.connectDispatch);
+  }
+  return exported.join('')
+}

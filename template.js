@@ -1,7 +1,7 @@
 const main = `
 class :className extends Component {
   constructor(props){
-    super(props)
+    super(props);
 
   }
 
@@ -19,16 +19,16 @@ class :className extends Component {
 `
 
 const imports = {
-  react: "import React, {Component} from 'react'",
-  propTypes: "import PropTypes from 'prop-types'",
-  bindActionCreators: "import {bindActionCreators} from 'redux'",
-  connect: "import {connect} from 'react-redux'"
+  react: "import React, {Component} from 'react';",
+  propTypes: "import PropTypes from 'prop-types';",
+  bindActionCreators: "import {bindActionCreators} from 'redux';",
+  connect: "import {connect} from 'react-redux';"
 }
 
 const exported = {
-  default: "export default :className;"
-  connectState: "export default connect(mapStateToProps)(:className);"
-  connectDispatch: "export default connect(null, mapDispatchToProps)(:className);"
+  default: "export default :className;",
+  connectState: "export default connect(mapStateToProps)(:className);",
+  connectDispatch: "export default connect(null, mapDispatchToProps)(:className);",
   connectStateAndDispatch: "export default connect(mapStateToProps, mapDispatchToProps)(:className);"
 }
 
@@ -47,7 +47,7 @@ function mapDispatchToProps(dispatch) {
 module.exports = {
   main: main,
   imports: imports,
-  exports: exported,
+  exported: exported,
   state: mapStateToProps,
-  dispatch: mapDispatchToProps
+  dispatch: mapDispatchToProps,
 }
