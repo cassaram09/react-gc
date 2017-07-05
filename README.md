@@ -1,10 +1,11 @@
 # react-gc
-React-GC is A Node command line tool for generating React components. 
+`react-gc` is A Node command line tool for quickly generating the framework of React components. 
 
 ## Installation
 
-Install `react-gc` globally for use in your terminal.
 `npm install react-gc -g`
+
+Install `react-gc` globally for use in your terminal.
 
 ## Usage
 
@@ -16,6 +17,7 @@ Creates a standard React component:
 $ react-gc myComponent
 
 //outputs myComponent.js in current directory: 
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
@@ -48,7 +50,8 @@ Creates a standard React component in a new directory (or an existing one):
 ```
 $ react-gc myComponent -p components
 
-//outputs myComponent.js in a components directory: 
+//outputs myComponent.js in ./components/myComponent.js:
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
@@ -136,15 +139,9 @@ MyComponent.propTypes = {
 
 }
 
-
-function mapStateToProps(state, ownProps) { 
-  return {};
-};
-
-
 function mapDispatchToProps(dispatch) {  
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyComponent);
+export default connect(null, mapDispatchToProps)(MyComponent);
 ```
