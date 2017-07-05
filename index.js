@@ -7,31 +7,22 @@
   const chalk = require('chalk'); 
   const replace = require('replace');
   const template = require('./template');
-  const textInput = require('./template_textInput');
 
   program
    .arguments('<className>')
    .option('-p, --path <path>', 'Add path to new file (relative from current directory)')
    .option('-d, --dispatch', 'Add dispatch')
    .option('-s, --state', 'Add state')
+   .option('-b, --basic', 'Basic presentational component')
    .action(createComponent)
    .parse(process.argv);
 
    // build our new component
   function createComponent(className){
-    switch (className){
-      case 'TextInput':
-        var template = textInput.template;
-        createDirectory();
-        writeFile(template, className)
-        return
-      default:
-        var template = buildTemplate()
-        var name = capitalize(className)
-        createDirectory();
-        writeFile(template, name)
-        return
-    }
+    var template = buildTemplate()
+    var name = capitalize(className)
+    createDirectory();
+    writeFile(template, name)
   }
 
   // Write the template to a file and replace our className variables
@@ -67,8 +58,6 @@
     return className[0].toUpperCase() + className.substring(1, className.length)
   }
 
-  
-
   // build the template - we'll replace variables later
   function buildTemplate(){
     return buildImports() + '\n' + buildBody() + '\n' + buildExports()
@@ -89,6 +78,10 @@
   // build the body of our component
   function buildBody(){
     var body = [template.main]
+    if ( program.basic ){
+      body = [template.basic]
+      return body.join('\n')
+    }
     if ( program.state) {
       body.push(template.state)
     }

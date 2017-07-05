@@ -7,10 +7,26 @@ class :className extends Component {
 
   render(){
     return (
-
+      <div id=":className">
+    
+      </div>
     )
   }
 
+}
+
+:className.propTypes = {
+
+}
+`
+
+const basic = `
+const :className = () => {
+  return (
+    <div id=":className">
+
+    </div>
+  )
 }
 
 :className.propTypes = {
@@ -50,4 +66,5 @@ module.exports = {
   exported: exported,
   state: mapStateToProps,
   dispatch: mapDispatchToProps,
+  basic: basic
 }
