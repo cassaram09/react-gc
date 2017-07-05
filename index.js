@@ -10,9 +10,9 @@
 
   program
    .arguments('<className>')
-   .option('-p, --path <path>', 'Add path to new file (relative from current directory)')
-   .option('-d, --dispatch', 'Add dispatch')
-   .option('-s, --state', 'Add state')
+   .option('-p, --path <path>', 'Create file in a new directory')
+   .option('-d, --dispatch', 'Add mapDisptatchToProps')
+   .option('-s, --state', 'Add mapStateToProps')
    .option('-b, --basic', 'Basic presentational component')
    .action(createComponent)
    .parse(process.argv);
