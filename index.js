@@ -33,7 +33,7 @@
       if (err) throw err;
       replace({
         regex: ":className",
-        replacement: className,
+        replacement: capitalize(className),
         paths: [`${path}.js`],
         recursive: false,
         silent: true,
