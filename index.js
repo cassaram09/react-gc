@@ -20,9 +20,8 @@
    // build our new component
   function createComponent(className){
     var template = buildTemplate()
-    var name = capitalize(className)
     createDirectory();
-    writeFile(template, name)
+    writeFile(template, className)
   }
 
   // Write the template to a file and replace our className variables

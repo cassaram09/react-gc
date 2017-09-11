@@ -7,7 +7,7 @@ class :className extends Component {
 
   render(){
     return (
-      <div id=":className">
+      <div className=":className">
     
       </div>
     )
@@ -23,7 +23,7 @@ class :className extends Component {
 const basic = `
 const :className = () => {
   return (
-    <div id=":className">
+    <div className=":className">
 
     </div>
   )
